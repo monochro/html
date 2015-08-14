@@ -1,4 +1,4 @@
-<?php namespace Illuminate\Html;
+<?php namespace Monochro\Html;
 
 use Illuminate\Support\Facades\Facade;
 

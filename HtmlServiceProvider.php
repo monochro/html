@@ -1,4 +1,4 @@
-<?php namespace Illuminate\Html;
+<?php namespace Monochro\Html;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -22,8 +22,8 @@ class HtmlServiceProvider extends ServiceProvider {
 
 		$this->registerFormBuilder();
 
-		$this->app->alias('html', 'Illuminate\Html\HtmlBuilder');
-		$this->app->alias('form', 'Illuminate\Html\FormBuilder');
+		$this->app->alias('html', 'Monochro\Html\HtmlBuilder');
+		$this->app->alias('form', 'Monochro\Html\FormBuilder');
 	}
 
 	/**
