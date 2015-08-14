@@ -9,7 +9,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Illuminate\\Html\\": ""
+            "Monochro\\Html\\": ""
         },
         "files": [
             "helpers.php"
