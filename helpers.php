@@ -40,12 +40,12 @@ if ( ! function_exists('value2key'))
      * @param  array  $datas
      * @return array
      */
-    function value2key($datas)
+    function value2key($datas, $low = true)
     {
         $result = false;
         if (is_array($datas)) {
             foreach ($datas as $data) {
-                $result[$data] = $data;
+                $result[($low ? low($data) : $data)] = $data;
             }
         }
         return $result;

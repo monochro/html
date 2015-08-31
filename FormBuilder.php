@@ -62,7 +62,7 @@ class FormBuilder {
      *
      * @var array
      */
-    protected $spoofedMethods = array('DELETE', 'PATCH', 'PUT');
+    protected $spoofedMethods = array('delete', 'patch', 'put');
 
     /**
      * The types of inputs to not fill values on by default.
@@ -194,7 +194,7 @@ class FormBuilder {
     {
         $token = ! empty($this->csrfToken) ? $this->csrfToken : $this->session->getToken();
 
-        return $this->hidden('_token', $token);
+        return $this->hidden('_token', $token, ['name' => '_token']);
     }
 
     /**
@@ -239,7 +239,9 @@ class FormBuilder {
      */
     public function input($type, $name, $value = null, $options = array())
     {
-        if ( ! isset($options['name'])) $options['name'] = $name;
+        if ( ! isset($options['name'])) {
+            $options['name'] = $this->getNameAttribute($name);
+        }
 
         // We will get the appropriate value for the given field. We will look for the
         // value in the session for the value in the old input data then we'll look
@@ -381,7 +383,9 @@ class FormBuilder {
     public function textarea($name, $value = null, $options = array())
     {
         $options = option_add($options, 'class', 'form-control');
-        if ( ! isset($options['name'])) $options['name'] = $name;
+        if ( ! isset($options['name'])) {
+            $options['name'] = $this->getNameAttribute($name);
+        }
 
         // Next we will look for the rows and cols attributes, as each of these are put
         // on the textarea element definition. If they are not present, we will just
@@ -457,7 +461,9 @@ class FormBuilder {
         $options['id'] = $this->getIdAttribute($name, $options);
         $options = option_add($options, 'class', 'form-control');
 
-        if ( ! isset($options['name'])) $options['name'] = $name;
+        if ( ! isset($options['name'])) {
+            $options['name'] = $this->getNameAttribute($name);
+        }
 
         if (array_key_exists('empty', $options))
         {
@@ -795,7 +801,7 @@ class FormBuilder {
     {
         $method = strtoupper($method);
 
-        return $method != 'GET' ? 'POST' : $method;
+        return $method != 'get' ? 'post' : $method;
     }
 
     /**
@@ -924,6 +930,26 @@ class FormBuilder {
         if (in_array($name, $this->labels))
         {
             return $name;
+        }
+    }
+
+    /**
+     * Get the Name attribute for a field name.
+     *
+     * @param  string  $name
+     * @param  array   $attributes
+     * @return string
+     */
+    public function getNameAttribute($name)
+    {
+        if (strpos($name, '.') !== false)
+        {
+            list($model, $name) = explode('.', $name);
+            return $model.'['.$name.']';
+        }
+        else
+        {
+            return $this->model.'['.$name.']';
         }
     }
 
